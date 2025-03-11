@@ -39,4 +39,4 @@ serviço está fora do ar.
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/enzokaua/algorithm-fibonacci-identification.git
+   git clone https://github.com/enzokaua/circuit-break-pattern.git

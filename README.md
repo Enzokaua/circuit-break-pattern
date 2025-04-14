@@ -1,42 +1,37 @@
-# Design Pattern - Circuit Breaker (Disjuntor)
+# Design Pattern - Singleton (Instância Única)
 
-> Este repositório contém a implementação de um padrão de projeto nomeado "Circuit Breaker", o modelo Disjuntor. Essa implementação é para fins de estudo e prática.
+> Este repositório contém a implementação de um padrão de projeto chamado "Singleton", ou Instância Única. Essa implementação é para fins de estudo e prática, com foco em eficiência, segurança e clareza sobre o funcionamento interno da JVM.
 
 ## 💻 Pré-requisitos
 
 Para executar este projeto, certifique-se de ter as seguintes ferramentas configuradas no seu ambiente:
 
 - **Java 21** ou superior;
-- **Apache Maven** para gerenciamento de dependências e build do projeto;
 - Editor ou IDE de sua escolha (IntelliJ IDEA, Eclipse, VS Code, etc.).
-- Apache kafka implementado localmente.
 
 ## 🚀 Sobre o projeto
 
-Esse pattern ajuda a prevenir erro em cascata, quando as principais ferramentas do sistema param de funcionar. 
-Ele determinda 3 estados para a aplicação e transita entre eles, para que sobreviva diante a possíveis erros quando algum 
-serviço está fora do ar.
+O padrão Singleton garante que apenas uma instância de uma classe seja criada em todo o ciclo de vida da aplicação. Este padrão é frequentemente usado quando um único ponto de acesso global é necessário — como um gerenciador de configuração, pool de conexões ou cache compartilhado.
 
-### ✨ Funcionalidades
+Essa implementação específica utiliza uma **classe interna estática** para garantir:
 
-- Acata uma requisição
-- Tenta encaminhar o índice recebido ao kafka;
-- Realiza x tentativas;
-- Caso as tentativas tenham excedido o valor X, ele assume um estado em X retentativas.
-- Após um período de tentativas, ele irá realizar uma outra tentativa denovo ao serviço principal, reiniciando o fluxo;
+- **Lazy Loading** (criação sob demanda);
+- **Thread Safety** (segurança em ambiente multi-thread);
+- **Eficiência**, evitando sincronizações desnecessárias.
 
-### 🛠️ Tecnologias Utilizadas
+### 🧠 Funcionamento detalhado
 
-- **Java**: Linguagem de programação principal do projeto;
-- **Apache Maven**: Ferramenta de build e gerenciamento de dependências;
-- **Apache Kafka**: Serviço de mensageria.
+A estrutura da classe segue o seguinte formato:
 
-### Fluxo macro do pattern
+```java
+public class Singleton {
+    private Singleton() {} // Construtor privado
 
- ![patternjpg](https://github.com/user-attachments/assets/2cf9e0c1-8d9e-41fa-b690-641297333de6)
+    private static class SingletonHolder {
+        public static final Singleton instance = new Singleton(); // Instância criada apenas quando necessário
+    }
 
-## 🛠️ Configuração e Execução
-
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/enzokaua/circuit-break-pattern.git
+    public static Singleton getInstance() {
+        return SingletonHolder.instance; // Ponto de acesso à instância
+    }
+}
